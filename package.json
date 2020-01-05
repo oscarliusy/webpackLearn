@@ -1,0 +1,16 @@
+{
+  "name": "webpack-get-started",
+  "version": "1.0.0",
+  "description": "webpack lession 01",
+  "main": "index.js",
+  "scripts": {
+    "build":"webpack --mode production --config scripts/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "oscar",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
