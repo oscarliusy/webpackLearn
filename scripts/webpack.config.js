@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry:{
@@ -8,7 +9,7 @@ module.exports = {
     },
     output:{
         path:path.resolve(process.cwd(),"dist"),
-        filename:'static/js/[name].[chunkHash:6].js'
+        filename:'js/[name].[chunkHash:6].js'
     },
     module: {
         rules: [
@@ -19,18 +20,6 @@ module.exports = {
                 { loader: 'css-loader'  }
               ]
               },
-            // {
-            //   test: /\.(png|jpe?g|gif)$/i,
-            //   use: [
-            //     {
-            //       loader: 'file-loader',
-            //       options: {
-            //         name: 'static/images/[name].[ext]',                  
-            //         publicPath:'/'
-            //       },
-            //     },
-            //   ],
-            // },
             {
               test: /\.(png|jpg|gif)$/i,
               use: [
@@ -38,12 +27,23 @@ module.exports = {
                   loader: 'url-loader',
                   options: {
                     limit: 8192,
-                    name: 'static/images/[name].[ext]', 
+                    name: 'images/[name].[ext]', 
                     publicPath:'/'
                   },
                 },
               ],
             }, 
+            {
+              test: /\.m?js$/,
+              exclude: /(node_modules|bower_components)/,
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/preset-env'],
+                  plugins: ['@babel/plugin-proposal-object-rest-spread']
+                }
+              }
+            }
         ],
       },
     plugins: [
@@ -52,8 +52,14 @@ module.exports = {
         template: 'public/index.html'
       }),
       new MiniCssExtractPlugin({
-          filename:'static/css/[name].[chunkHash:6].css'
-      })
+          filename:'css/[name].[chunkHash:6].css'
+      }),
+      new CopyPlugin([
+        {
+          from: path.resolve(process.cwd(),'src/static/'),
+          to: 'static/',
+        },
+      ])
     ],
     devServer: {
         port: 3000,
