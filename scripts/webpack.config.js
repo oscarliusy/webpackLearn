@@ -13,12 +13,37 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css$/,
-                use: [
-                  { loader: MiniCssExtractPlugin.loader },
-                  { loader: 'css-loader'  }
-                ]
-              }
+              test: /\.css$/,
+              use: [
+                { loader: MiniCssExtractPlugin.loader },
+                { loader: 'css-loader'  }
+              ]
+              },
+            // {
+            //   test: /\.(png|jpe?g|gif)$/i,
+            //   use: [
+            //     {
+            //       loader: 'file-loader',
+            //       options: {
+            //         name: 'static/images/[name].[ext]',                  
+            //         publicPath:'/'
+            //       },
+            //     },
+            //   ],
+            // },
+            {
+              test: /\.(png|jpg|gif)$/i,
+              use: [
+                {
+                  loader: 'url-loader',
+                  options: {
+                    limit: 8192,
+                    name: 'static/images/[name].[ext]', 
+                    publicPath:'/'
+                  },
+                },
+              ],
+            }, 
         ],
       },
     plugins: [
